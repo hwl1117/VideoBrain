@@ -5,9 +5,9 @@ const path = require('path');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const FRONTEND_DIR = path.join(ROOT_DIR, 'frontend');
-const BACKEND_DIR = path.join(ROOT_DIR, 'backend-node');
+const BACKEND_DIR = path.join(ROOT_DIR, 'backend');
 const FRONTEND_URL = 'http://localhost:3000';
-const BACKEND_URL = 'http://localhost:8000/api/knowledge/stats';
+const BACKEND_URL = 'http://localhost:8000/health';
 
 let mainWindow;
 const children = [];
@@ -150,7 +150,9 @@ ipcMain.handle('win:maximize', () => {
 ipcMain.handle('win:close', () => { if (mainWindow) mainWindow.close(); });
 
 async function boot() {
-  spawnService('backend', nodeCommand(), ['server-v2.js'], BACKEND_DIR);
+  // 启动 Python 后端
+  spawnService('backend', 'python', ['-m', 'uvicorn', 'api.main:app', '--host', '0.0.0.0', '--port', '8000'], BACKEND_DIR);
+  // 启动前端
   spawnService('frontend', npmCommand(), ['run', 'dev', '--', '-p', '3000'], FRONTEND_DIR);
 
   try {

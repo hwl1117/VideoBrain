@@ -1,0 +1,59 @@
+{
+  "name": "videobrain",
+  "version": "2.6.0",
+  "description": "VideoBrain - 短视频智能知识库",
+  "main": "main.js",
+  "author": "hwl1117",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "build:portable": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.videobrain.app",
+    "productName": "VideoBrain",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "bin/**/*",
+      "../frontend/.next/**/*",
+      "../frontend/public/**/*",
+      "../frontend/package.json",
+      "../backend/**/*.py",
+      "../backend/requirements.txt",
+      "../backend/.env",
+      "../videobrain.ico"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "../videobrain.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "VideoBrain"
+    },
+    "portable": {
+      "artifactName": "VideoBrain-Portable-${version}.exe"
+    }
+  },
+  "devDependencies": {
+    "electron": "20.18.0",
+    "electron-builder": "^24.0.0"
+  }
+}

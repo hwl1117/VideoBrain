@@ -1,263 +1,289 @@
-# VideoBrain - 短视频智能知识库
+<p align="center">
+  <img src="videobrain.ico" width="100" alt="VideoBrain Logo">
+</p>
+
+<h1 align="center">VideoBrain</h1>
+<h3 align="center">短视频智能知识库 | Short Video Knowledge Base</h3>
 
 <p align="center">
-  <strong>结合 Agency-Agents 与 Superpowers 的智能知识库系统</strong>
+  <a href="https://video-brain.vercel.app">🌐 Live Demo</a> •
+  <a href="https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0">💻 Download App</a> •
+  <a href="#-快速开始-quick-start">🚀 Quick Start</a>
 </p>
 
 <p align="center">
-  通过短视频平台链接，一键识别视频内容，自动生成结构化知识
+  <img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" alt="Next.js">
+  <img src="https://img.shields.io/badge/FastAPI-0.104-green?logo=fastapi" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Electron-20-blue?logo=electron" alt="Electron">
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License">
 </p>
 
 ---
 
-## ✨ 核心特性
+## 🇨🇳 中文介绍
 
-- 🎬 **多平台支持** - 抖音、B站、YouTube、快手、TikTok、小红书
-- 🧠 **AI驱动** - GPT-4内容理解与概括
-- 🔍 **智能搜索** - 基于向量的语义搜索
-- 📚 **知识管理** - 结构化知识库存储
-- ⚡ **一键操作** - 粘贴链接即可处理
+### 📖 项目简介
 
-## 🏗️ 系统架构
+**VideoBrain** 是一款短视频智能知识库系统。粘贴任意短视频链接，AI 自动提取视频内容、语音转文字、深度分析，生成结构化知识并存储到私有知识库。
+
+### ✨ 核心特性
+
+- 🎬 **多平台支持** — 抖音、B站、YouTube、快手、TikTok、小红书、视频号
+- 🧠 **AI 驱动** — Whisper 语音转文字 + GPT-4 内容理解
+- 🔍 **语义搜索** — 基于向量数据库的智能搜索
+- 📚 **知识管理** — 结构化存储、分类、标签
+- 💻 **桌面应用** — Electron 桌面版，本地运行
+- 🆓 **免费方案** — 支持本地 Whisper 模型，无需付费
+
+### 🏗️ 系统架构
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      用户界面 (Next.js)                       │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    API服务 (FastAPI)                          │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │ 视频下载  │  │ 音频提取  │  │ 语音转文字│  │ 视觉分析  │   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-│                              │                              │
-│                              ▼                              │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │              AI概括服务 (GPT-4)                        │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                              │                              │
-│                              ▼                              │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │          知识库管理 (ChromaDB向量数据库)                │  │
-│  └──────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
+用户粘贴视频链接 (前端 Next.js)
+         ↓
+    解析链接 → 识别平台
+         ↓
+    下载视频 (yt-dlp)
+         ↓
+    语音转文字 (Whisper)
+         ↓
+    AI 深度分析 (GPT-4)
+         ↓
+    知识入库 (ChromaDB)
+         ↓
+    展示结果 (前端)
 ```
 
-## 🚀 快速开始
+### 🚀 快速开始
 
-### 1. 环境准备
+#### 方式一：在线访问
+
+直接访问 **https://video-brain.vercel.app**
+
+#### 方式二：下载桌面应用
+
+1. 前往 [Releases](https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0) 下载 `VideoBrain-v2.6.0-Windows-x64.zip`
+2. 解压到任意目录
+3. 运行 `electron/electron.exe`
+
+#### 方式三：本地开发
 
 ```bash
 # 克隆项目
-git clone https://github.com/yourusername/videobrain.git
-cd videobrain
+git clone https://github.com/hwl1117/VideoBrain.git
+cd VideoBrain
 
-# 复制环境变量配置
-cp .env.example .env
+# 一键启动（Windows）
+双击 start-local.bat
 
-# 编辑 .env 文件，填入 OpenAI API Key
-OPENAI_API_KEY=your_api_key_here
-```
-
-### 2. Docker部署（推荐）
-
-```bash
-# 启动所有服务
-docker-compose up -d
-
-# 查看日志
-docker-compose logs -f
-```
-
-访问 http://localhost:3000 即可使用
-
-### 3. 本地开发
-
-#### 后端
-
-```bash
+# 或手动启动
+# 终端1：后端
 cd backend
-
-# 创建虚拟环境
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 安装依赖
+venv\Scripts\activate
 pip install -r requirements.txt
-
-# 启动服务
 uvicorn api.main:app --reload --port 8000
-```
 
-#### 前端
-
-```bash
+# 终端2：前端
 cd frontend
-
-# 安装依赖
 npm install
-
-# 启动开发服务器
 npm run dev
 ```
 
-## 📖 使用指南
-
-### 处理视频
-
-1. 访问 http://localhost:3000
-2. 在输入框粘贴短视频链接
-3. 点击"开始处理"按钮
-4. 等待处理完成（通常需要2-5分钟）
-
-### 搜索知识
-
-1. 切换到"搜索知识"标签
-2. 输入关键词进行搜索
-3. 系统会返回最相关的知识条目
-
-### 浏览知识库
-
-1. 切换到"知识库"标签
-2. 按分类浏览已处理的视频
-3. 查看详细的知识摘要和关键点
-
-## 🔧 技术栈
-
-### 后端
-- **Python 3.11** - 主要语言
-- **FastAPI** - Web框架
-- **SQLAlchemy** - ORM
-- **ChromaDB** - 向量数据库
-- **yt-dlp** - 视频下载
-- **FFmpeg** - 音视频处理
-- **OpenAI Whisper** - 语音识别
-- **GPT-4** - 内容理解与概括
-
-### 前端
-- **Next.js 14** - React框架
-- **TypeScript** - 类型安全
-- **Tailwind CSS** - 样式框架
-- **Lucide React** - 图标库
-
-## 📁 项目结构
+### 📁 项目结构
 
 ```
-videobrain/
-├── backend/                 # 后端服务
-│   ├── api/                # API接口
-│   │   └── main.py         # 主API文件
-│   ├── services/           # 业务服务
-│   │   ├── video_downloader.py    # 视频下载
-│   │   ├── audio_extractor.py     # 音频提取
-│   │   ├── speech_to_text.py      # 语音转文字
-│   │   ├── visual_analyzer.py     # 视觉分析
-│   │   ├── ai_summarizer.py       # AI概括
-│   │   └── knowledge_base.py      # 知识库管理
-│   ├── models/             # 数据模型
-│   │   └── database.py     # 数据库模型
-│   ├── requirements.txt    # Python依赖
-│   └── Dockerfile          # 后端Docker配置
-├── frontend/               # 前端应用
-│   ├── src/                # 源代码
-│   │   └── app/            # Next.js应用
-│   ├── package.json        # Node依赖
-│   └── Dockerfile          # 前端Docker配置
-├── tests/                  # 测试文件
-├── docs/                   # 文档
-├── docker-compose.yml      # Docker编排
-├── .env.example            # 环境变量示例
-└── README.md               # 项目说明
+VideoBrain/
+├── backend/              # Python 后端
+│   ├── api/              # FastAPI 接口
+│   ├── services/         # 核心服务
+│   │   ├── video_downloader.py   # 视频下载
+│   │   ├── audio_extractor.py    # 音频提取
+│   │   ├── speech_to_text.py     # 语音转文字
+│   │   ├── visual_analyzer.py    # 视觉分析
+│   │   ├── ai_summarizer.py      # AI 概括
+│   │   └── knowledge_base.py     # 知识库管理
+│   └── requirements.txt
+├── frontend/             # Next.js 前端
+│   ├── src/app/          # 页面组件
+│   └── package.json
+├── electron/             # Electron 桌面应用
+│   ├── main.js           # 主进程
+│   └── bin/              # Electron 运行时
+├── vercel.json           # Vercel 部署配置
+└── start-local.bat       # 本地启动脚本
 ```
 
-## 🔌 API接口
+### 🔧 技术栈
 
-### 视频处理
+| 层级 | 技术 |
+|------|------|
+| 前端 | Next.js 14 + TypeScript + Tailwind CSS |
+| 后端 | Python + FastAPI + SQLAlchemy |
+| AI | Whisper (语音) + GPT-4 (分析) |
+| 数据库 | SQLite + ChromaDB (向量) |
+| 桌面 | Electron |
+| 部署 | Vercel (前端) + GitHub Releases (App) |
+
+---
+
+## 🇬🇧 English Introduction
+
+### 📖 About
+
+**VideoBrain** is an intelligent knowledge base system for short videos. Paste any short video URL, and the AI automatically extracts content, transcribes speech, performs deep analysis, and generates structured knowledge stored in a private knowledge base.
+
+### ✨ Key Features
+
+- 🎬 **Multi-Platform** — Douyin, Bilibili, YouTube, Kuaishou, TikTok, Xiaohongshu
+- 🧠 **AI-Powered** — Whisper speech-to-text + GPT-4 content understanding
+- 🔍 **Semantic Search** — Vector database powered intelligent search
+- 📚 **Knowledge Management** — Structured storage with categories and tags
+- 💻 **Desktop App** — Electron desktop version, runs locally
+- 🆓 **Free Option** — Local Whisper model support, no payment required
+
+### 🏗️ Architecture
+
+```
+User pastes video URL (Frontend - Next.js)
+         ↓
+    Parse URL → Identify Platform
+         ↓
+    Download Video (yt-dlp)
+         ↓
+    Speech to Text (Whisper)
+         ↓
+    AI Deep Analysis (GPT-4)
+         ↓
+    Store Knowledge (ChromaDB)
+         ↓
+    Display Results (Frontend)
+```
+
+### 🚀 Quick Start
+
+#### Option 1: Online
+
+Visit **https://video-brain.vercel.app**
+
+#### Option 2: Download Desktop App
+
+1. Go to [Releases](https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0)
+2. Download `VideoBrain-v2.6.0-Windows-x64.zip`
+3. Extract and run `electron/electron.exe`
+
+#### Option 3: Local Development
+
+```bash
+# Clone the project
+git clone https://github.com/hwl1117/VideoBrain.git
+cd VideoBrain
+
+# Quick start (Windows)
+Double-click start-local.bat
+
+# Or start manually
+# Terminal 1: Backend
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn api.main:app --reload --port 8000
+
+# Terminal 2: Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+### 📁 Project Structure
+
+```
+VideoBrain/
+├── backend/              # Python Backend
+│   ├── api/              # FastAPI Routes
+│   ├── services/         # Core Services
+│   │   ├── video_downloader.py   # Video Download
+│   │   ├── audio_extractor.py    # Audio Extraction
+│   │   ├── speech_to_text.py     # Speech to Text
+│   │   ├── visual_analyzer.py    # Visual Analysis
+│   │   ├── ai_summarizer.py      # AI Summarization
+│   │   └── knowledge_base.py     # Knowledge Base
+│   └── requirements.txt
+├── frontend/             # Next.js Frontend
+│   ├── src/app/          # Page Components
+│   └── package.json
+├── electron/             # Electron Desktop App
+│   ├── main.js           # Main Process
+│   └── bin/              # Electron Runtime
+├── vercel.json           # Vercel Deployment Config
+└── start-local.bat       # Local Start Script
+```
+
+### 🔧 Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 14 + TypeScript + Tailwind CSS |
+| Backend | Python + FastAPI + SQLAlchemy |
+| AI | Whisper (Speech) + GPT-4 (Analysis) |
+| Database | SQLite + ChromaDB (Vector) |
+| Desktop | Electron |
+| Deploy | Vercel (Web) + GitHub Releases (App) |
+
+### 🔌 API Endpoints
 
 ```http
+# Process Video
 POST /api/videos/process
-Content-Type: application/json
+{ "url": "https://www.douyin.com/video/xxx", "language": "zh" }
 
-{
-  "url": "https://www.douyin.com/video/xxx",
-  "language": "zh"
-}
-```
-
-### 搜索知识库
-
-```http
+# Search Knowledge
 POST /api/knowledge/search
-Content-Type: application/json
+{ "query": "artificial intelligence", "limit": 10 }
 
-{
-  "query": "人工智能",
-  "category": "科技",
-  "limit": 10
-}
-```
-
-### 获取视频信息
-
-```http
+# Get Video Info
 GET /api/videos/{video_id}
+
+# Health Check
+GET /health
 ```
 
-### 获取知识库统计
+---
 
-```http
-GET /api/knowledge/stats
-```
+## 📦 Deployment
 
-## 🎯 处理流程
+### Web (Vercel)
 
-```
-1. 解析链接 → 识别平台和视频ID
-       ↓
-2. 下载视频 → 获取视频文件
-       ↓
-3. 提取音频 → 分离音视频轨道
-       ↓
-4. 语音转文字 → Whisper API转录
-       ↓
-5. 视觉分析 → GPT-4V分析关键帧
-       ↓
-6. AI概括 → 生成结构化知识
-       ↓
-7. 存入知识库 → 向量数据库存储
-```
+Frontend is deployed to Vercel: **https://video-brain.vercel.app**
 
-## 🤝 贡献指南
+Auto-deploys on push to `master` branch.
 
-欢迎贡献代码！请遵循以下步骤：
+### Desktop App (GitHub Releases)
 
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
+Download: [v2.6.0 Release](https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0)
 
-## 📄 许可证
+| File | Size | Description |
+|------|------|-------------|
+| VideoBrain-v2.6.0-Windows-x64.zip | ~134MB | Windows portable app |
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+---
 
-## 🙏 致谢
+## 📄 License
 
-- [OpenAI](https://openai.com/) - GPT-4和Whisper API
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) - 视频下载
-- [ChromaDB](https://www.trychroma.com/) - 向量数据库
-- [FastAPI](https://fastapi.tiangolo.com/) - Web框架
-- [Next.js](https://nextjs.org/) - React框架
+MIT License - See [LICENSE](LICENSE) for details
 
-## 📞 联系方式
+## 🙏 Credits
 
-- 项目链接: https://github.com/yourusername/videobrain
-- 问题反馈: Issues
+- [OpenAI](https://openai.com/) — GPT-4 & Whisper
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) — Video Download
+- [ChromaDB](https://www.trychroma.com/) — Vector Database
+- [FastAPI](https://fastapi.tiangolo.com/) — Web Framework
+- [Next.js](https://nextjs.org/) — React Framework
+- [Electron](https://www.electronjs.org/) — Desktop Framework
 
 ---
 
 <p align="center">
-  Made with ❤️ by VideoBrain Team
+  Made with ❤️ by <a href="https://github.com/hwl1117">hwl1117</a>
 </p>
