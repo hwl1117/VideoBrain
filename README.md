@@ -3,12 +3,12 @@
 </p>
 
 <h1 align="center">VideoBrain</h1>
-<h3 align="center">短视频智能知识库 | Short Video Knowledge Base</h3>
+<h3 align="center">AI-Powered Short Video Knowledge Base</h3>
 
 <p align="center">
   <a href="https://video-brain.vercel.app">🌐 Live Demo</a> •
   <a href="https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0">💻 Download App</a> •
-  <a href="#-快速开始-quick-start">🚀 Quick Start</a>
+  <a href="#-quick-start">🚀 Quick Start</a>
 </p>
 
 <p align="center">
@@ -21,128 +21,20 @@
 
 ---
 
-## 🇨🇳 中文介绍
-
-### 📖 项目简介
-
-**VideoBrain** 是一款短视频智能知识库系统。粘贴任意短视频链接，AI 自动提取视频内容、语音转文字、深度分析，生成结构化知识并存储到私有知识库。
-
-### ✨ 核心特性
-
-- 🎬 **多平台支持** — 抖音、B站、YouTube、快手、TikTok、小红书、视频号
-- 🧠 **AI 驱动** — Whisper 语音转文字 + GPT-4 内容理解
-- 🔍 **语义搜索** — 基于向量数据库的智能搜索
-- 📚 **知识管理** — 结构化存储、分类、标签
-- 💻 **桌面应用** — Electron 桌面版，本地运行
-- 🆓 **免费方案** — 支持本地 Whisper 模型，无需付费
-
-### 🏗️ 系统架构
-
-```
-用户粘贴视频链接 (前端 Next.js)
-         ↓
-    解析链接 → 识别平台
-         ↓
-    下载视频 (yt-dlp)
-         ↓
-    语音转文字 (Whisper)
-         ↓
-    AI 深度分析 (GPT-4)
-         ↓
-    知识入库 (ChromaDB)
-         ↓
-    展示结果 (前端)
-```
-
-### 🚀 快速开始
-
-#### 方式一：在线访问
-
-直接访问 **https://video-brain.vercel.app**
-
-#### 方式二：下载桌面应用
-
-1. 前往 [Releases](https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0) 下载 `VideoBrain-v2.6.0-Windows-x64.zip`
-2. 解压到任意目录
-3. 运行 `electron/electron.exe`
-
-#### 方式三：本地开发
-
-```bash
-# 克隆项目
-git clone https://github.com/hwl1117/VideoBrain.git
-cd VideoBrain
-
-# 一键启动（Windows）
-双击 start-local.bat
-
-# 或手动启动
-# 终端1：后端
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn api.main:app --reload --port 8000
-
-# 终端2：前端
-cd frontend
-npm install
-npm run dev
-```
-
-### 📁 项目结构
-
-```
-VideoBrain/
-├── backend/              # Python 后端
-│   ├── api/              # FastAPI 接口
-│   ├── services/         # 核心服务
-│   │   ├── video_downloader.py   # 视频下载
-│   │   ├── audio_extractor.py    # 音频提取
-│   │   ├── speech_to_text.py     # 语音转文字
-│   │   ├── visual_analyzer.py    # 视觉分析
-│   │   ├── ai_summarizer.py      # AI 概括
-│   │   └── knowledge_base.py     # 知识库管理
-│   └── requirements.txt
-├── frontend/             # Next.js 前端
-│   ├── src/app/          # 页面组件
-│   └── package.json
-├── electron/             # Electron 桌面应用
-│   ├── main.js           # 主进程
-│   └── bin/              # Electron 运行时
-├── vercel.json           # Vercel 部署配置
-└── start-local.bat       # 本地启动脚本
-```
-
-### 🔧 技术栈
-
-| 层级 | 技术 |
-|------|------|
-| 前端 | Next.js 14 + TypeScript + Tailwind CSS |
-| 后端 | Python + FastAPI + SQLAlchemy |
-| AI | Whisper (语音) + GPT-4 (分析) |
-| 数据库 | SQLite + ChromaDB (向量) |
-| 桌面 | Electron |
-| 部署 | Vercel (前端) + GitHub Releases (App) |
-
----
-
-## 🇬🇧 English Introduction
-
-### 📖 About
+## 📖 About
 
 **VideoBrain** is an intelligent knowledge base system for short videos. Paste any short video URL, and the AI automatically extracts content, transcribes speech, performs deep analysis, and generates structured knowledge stored in a private knowledge base.
 
-### ✨ Key Features
+## ✨ Key Features
 
-- 🎬 **Multi-Platform** — Douyin, Bilibili, YouTube, Kuaishou, TikTok, Xiaohongshu
+- 🎬 **Multi-Platform Support** — Douyin, Bilibili, YouTube, Kuaishou, TikTok, Xiaohongshu, WeChat Video
 - 🧠 **AI-Powered** — Whisper speech-to-text + GPT-4 content understanding
 - 🔍 **Semantic Search** — Vector database powered intelligent search
 - 📚 **Knowledge Management** — Structured storage with categories and tags
 - 💻 **Desktop App** — Electron desktop version, runs locally
 - 🆓 **Free Option** — Local Whisper model support, no payment required
 
-### 🏗️ Architecture
+## 🏗️ Architecture
 
 ```
 User pastes video URL (Frontend - Next.js)
@@ -160,19 +52,19 @@ User pastes video URL (Frontend - Next.js)
     Display Results (Frontend)
 ```
 
-### 🚀 Quick Start
+## 🚀 Quick Start
 
-#### Option 1: Online
+### Option 1: Online
 
 Visit **https://video-brain.vercel.app**
 
-#### Option 2: Download Desktop App
+### Option 2: Download Desktop App
 
 1. Go to [Releases](https://github.com/hwl1117/VideoBrain/releases/tag/v2.6.0)
 2. Download `VideoBrain-v2.6.0-Windows-x64.zip`
 3. Extract and run `electron/electron.exe`
 
-#### Option 3: Local Development
+### Option 3: Local Development
 
 ```bash
 # Clone the project
@@ -196,7 +88,7 @@ npm install
 npm run dev
 ```
 
-### 📁 Project Structure
+## 📁 Project Structure
 
 ```
 VideoBrain/
@@ -220,7 +112,7 @@ VideoBrain/
 └── start-local.bat       # Local Start Script
 ```
 
-### 🔧 Tech Stack
+## 🔧 Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -231,7 +123,7 @@ VideoBrain/
 | Desktop | Electron |
 | Deploy | Vercel (Web) + GitHub Releases (App) |
 
-### 🔌 API Endpoints
+## 🔌 API Endpoints
 
 ```http
 # Process Video
@@ -249,7 +141,23 @@ GET /api/videos/{video_id}
 GET /health
 ```
 
----
+## 🎯 Processing Pipeline
+
+```
+1. Parse URL → Identify platform and video ID
+       ↓
+2. Download Video → Get video file
+       ↓
+3. Extract Audio → Separate audio/video tracks
+       ↓
+4. Speech to Text → Whisper transcription
+       ↓
+5. Visual Analysis → GPT-4V key frame analysis
+       ↓
+6. AI Summary → Generate structured knowledge
+       ↓
+7. Store to DB → Vector database storage
+```
 
 ## 📦 Deployment
 
@@ -267,7 +175,34 @@ Download: [v2.6.0 Release](https://github.com/hwl1117/VideoBrain/releases/tag/v2
 |------|------|-------------|
 | VideoBrain-v2.6.0-Windows-x64.zip | ~134MB | Windows portable app |
 
----
+## ⚙️ Environment Variables
+
+Create `.env` file in `backend/` directory:
+
+```env
+# Database
+DATABASE_URL=sqlite:///./videobrain.db
+
+# Server
+HOST=0.0.0.0
+PORT=8000
+
+# Use local Whisper (free, no API key needed)
+USE_LOCAL_WHISPER=true
+
+# Optional: OpenAI API (for GPT-4 analysis)
+# OPENAI_API_KEY=your-api-key-here
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
