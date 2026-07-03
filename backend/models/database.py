@@ -2,7 +2,7 @@
 VideoBrain 数据库模型
 """
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, JSON, Boolean
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import os
@@ -70,6 +70,15 @@ class KnowledgeEntry(Base):
     
     # 元数据
     source_url = Column(String(500))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class Category(Base):
+    """用户自定义分类"""
+    __tablename__ = "categories"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), unique=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

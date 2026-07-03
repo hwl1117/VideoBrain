@@ -24,15 +24,19 @@ const nextConfig = {
 
   // 图片域名配置
   images: {
-    domains: [
-      'localhost',
-      'via.placeholder.com',
-      '*.vercel.app',
-      '*.onrender.com',
-      '*.railway.app',
-      '*.fly.dev',
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'https', hostname: 'via.placeholder.com' },
+      { protocol: 'https', hostname: '**.vercel.app' },
+      { protocol: 'https', hostname: '**.onrender.com' },
+      { protocol: 'https', hostname: '**.railway.app' },
+      { protocol: 'https', hostname: '**.fly.dev' },
     ],
     unoptimized: true, // Vercel 部署时可能需要
+  },
+
+  turbopack: {
+    root: __dirname,
   },
 
   // 输出配置

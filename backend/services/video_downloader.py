@@ -169,7 +169,11 @@ class VideoDownloader:
             if match:
                 return match.group(1)
         elif platform == 'youtube':
-            match = re.search(r'[?&]v=([^&]+)', parsed.query)
+            if parsed.netloc.lower().endswith('youtu.be'):
+                video_id = path.strip('/').split('/')[0]
+                if video_id:
+                    return video_id
+            match = re.search(r'(?:^|&)v=([^&]+)', parsed.query)
             if match:
                 return match.group(1)
 

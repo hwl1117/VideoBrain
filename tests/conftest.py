@@ -94,4 +94,12 @@ def setup_test_env():
     
     # 清理
     if os.path.exists('./test.db'):
-        os.remove('./test.db')
+        try:
+            from models.database import engine
+            engine.dispose()
+        except Exception:
+            pass
+        try:
+            os.remove('./test.db')
+        except PermissionError:
+            pass

@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
 .Python
 venv/
 env/
@@ -10,64 +9,46 @@ env/
 dist/
 build/
 
-# Node
+# Node / Next.js
 node_modules/
 .next/
 out/
 *.tsbuildinfo
 
-# 环境变量
+# Environment
 .env
 .env.local
 .env.*.local
 
-# 数据库
+# Databases and generated knowledge stores
 *.db
 *.sqlite
 *.sqlite3
-
-# 下载和临时文件
 downloads/
 audio/
 knowledge_base_db/
 temp_chunks/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# 系统文件
-.DS_Store
-Thumbs.db
-
-# 日志
+# Logs and test output
 *.log
 logs/
-
-# Docker
-docker-compose.override.yml
-
-# 测试
 .coverage
 htmlcov/
 .pytest_cache/
 
-# 构建产物
-dist/
-build/
-*.egg
-
-# Electron 运行时
-electron-runtime/
-electron/bin/
-electron/launch.bat
-electron/start.bat
-
-# Chrome 数据
+# Local generated artifacts
+release/
+备份/
+.playwright-mcp/
 .chrome-data/
 
-# 启动脚本（运行时生成）
-VideoBrain.bat
-launch-app.js
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docker local override
+docker-compose.override.yml
