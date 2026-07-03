@@ -1,8 +1,5 @@
 ﻿import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'VideoBrain - 短视频智能知识库',
@@ -46,7 +43,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body>
         <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
           {children}
         </main>

@@ -8,6 +8,7 @@ import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 import json
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -18,14 +19,12 @@ class KnowledgeBaseManager:
                  db_path: str = "./knowledge_base_db",
                  embedding_model: str = "all-MiniLM-L6-v2"):
         self.db_path = db_path
+        self.embedding_model_name = embedding_model
+        self.embedding_model = None
         os.makedirs(db_path, exist_ok=True)
         
         # 初始化ChromaDB
         self.client = chromadb.PersistentClient(path=db_path)
-        
-        # 初始化嵌入模型
-        logger.info(f"加载嵌入模型: {embedding_model}")
-        self.embedding_model = SentenceTransformer(embedding_model)
         
         # 创建集合
         self.collection = self.client.get_or_create_collection(
@@ -34,6 +33,20 @@ class KnowledgeBaseManager:
         )
         
         logger.info(f"知识库初始化完成，当前条目数: {self.collection.count()}")
+
+    def _encode_text(self, text: str) -> List[float]:
+        """生成嵌入向量；测试环境使用轻量确定性向量避免联网加载模型。"""
+        if os.getenv("TESTING") == "true":
+            vector = [0.0] * 384
+            for char in text.lower():
+                vector[ord(char) % len(vector)] += 1.0
+            norm = math.sqrt(sum(value * value for value in vector)) or 1.0
+            return [value / norm for value in vector]
+
+        if self.embedding_model is None:
+            logger.info(f"加载嵌入模型: {self.embedding_model_name}")
+            self.embedding_model = SentenceTransformer(self.embedding_model_name)
+        return self.embedding_model.encode(text).tolist()
     
     def add_knowledge(self, 
                      video_id: int,
@@ -50,7 +63,7 @@ class KnowledgeBaseManager:
             embedding_text = f"{title}\n{summary}\n{content[:1000]}"
             
             # 生成嵌入向量
-            embedding = self.embedding_model.encode(embedding_text).tolist()
+            embedding = self._encode_text(embedding_text)
             
             # 准备元数据
             chroma_metadata = {
@@ -66,8 +79,8 @@ class KnowledgeBaseManager:
                 "created_at": metadata.get('created_at', '')
             }
             
-            # 存入ChromaDB
-            self.collection.add(
+            # 存入ChromaDB。使用 upsert 支持重试同一视频时覆盖旧向量。
+            self.collection.upsert(
                 ids=[doc_id],
                 embeddings=[embedding],
                 documents=[content],
@@ -93,11 +106,12 @@ class KnowledgeBaseManager:
                query: str, 
                n_results: int = 10,
                category: Optional[str] = None,
-               difficulty: Optional[str] = None) -> Dict:
+               difficulty: Optional[str] = None,
+               platform: Optional[str] = None) -> Dict:
         """搜索知识库"""
         try:
             # 生成查询嵌入
-            query_embedding = self.embedding_model.encode(query).tolist()
+            query_embedding = self._encode_text(query)
             
             # 构建过滤条件
             where_conditions = {}
@@ -105,6 +119,8 @@ class KnowledgeBaseManager:
                 where_conditions["category"] = category
             if difficulty:
                 where_conditions["difficulty_level"] = difficulty
+            if platform:
+                where_conditions["source_platform"] = platform
             
             # 执行搜索
             results = self.collection.query(
@@ -175,18 +191,18 @@ class KnowledgeBaseManager:
             
             # 更新文档内容
             content = updates.get('content', existing['content'])
-            
-            # 重新生成嵌入
-            embedding_text = f"{metadata.get('title', '')}\n{metadata.get('summary', '')}\n{content[:1000]}"
-            embedding = self.embedding_model.encode(embedding_text).tolist()
-            
+
+            update_kwargs = {
+                "ids": [doc_id],
+                "documents": [content],
+                "metadatas": [metadata],
+            }
+            if content != existing['content'] or updates.get('metadata', {}).get('title') or updates.get('metadata', {}).get('summary'):
+                embedding_text = f"{metadata.get('title', '')}\n{metadata.get('summary', '')}\n{content[:1000]}"
+                update_kwargs["embeddings"] = [self._encode_text(embedding_text)]
+
             # 更新ChromaDB
-            self.collection.update(
-                ids=[doc_id],
-                embeddings=[embedding],
-                documents=[content],
-                metadatas=[metadata]
-            )
+            self.collection.update(**update_kwargs)
             
             return {'success': True}
             

@@ -1,22 +1,11 @@
 {
-  "name": "agency-superpowers-product-desktop",
+  "name": "agency-superpowers-product-web",
   "version": "1.0.0",
   "private": true,
-  "main": "electron/main.js",
   "scripts": {
-    "app": "electron .",
-    "desktop": "electron .",
     "build:frontend": "npm --prefix frontend run build",
     "start:frontend": "npm --prefix frontend run dev -- -p 3000",
-    "start:backend": "npm --prefix backend-node run start"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.28.6",
-    "@babel/core": "^7.29.0",
-    "@babel/plugin-transform-nullish-coalescing-operator": "^7.28.6",
-    "@babel/plugin-transform-optional-chaining": "^7.28.6",
-    "@babel/preset-env": "^7.29.5",
-    "@babel/preset-react": "^7.28.5",
-    "electron": "^31.7.7"
+    "start:backend": "cd backend && python -m uvicorn api.main:app --host 0.0.0.0 --port 8000",
+    "start:backend-node": "npm --prefix backend-node run start"
   }
 }
